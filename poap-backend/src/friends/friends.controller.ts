@@ -19,16 +19,16 @@ export class FriendsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.friendsService.findOne(+id);
+    return this.friendsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFriendDto: UpdateFriendDto) {
-    return this.friendsService.update(+id, updateFriendDto);
+    return this.friendsService.update(id, updateFriendDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.friendsService.remove(+id);
+    return this.friendsService.remove(id);
   }
 }

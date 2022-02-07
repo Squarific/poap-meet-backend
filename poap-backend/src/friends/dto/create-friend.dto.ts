@@ -1,1 +1,3 @@
-export class CreateFriendDto {}
+export class CreateFriendDto {
+    data: string;
+}

@@ -12,15 +12,15 @@ export class FriendsService {
     return `This action returns all friends`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} friend`;
+  findOne(id: string) {
+    return `This action returns a ${id} friend`;
   }
 
-  update(id: number, updateFriendDto: UpdateFriendDto) {
-    return `This action updates a #${id} friend`;
+  update(id: string, updateFriendDto: UpdateFriendDto) {
+    return `This action updates a ${id} friend`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} friend`;
+  remove(id: string) {
+    return `This action removes a ${id} friend`;
   }
 }
