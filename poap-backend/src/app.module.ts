@@ -3,7 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Friend } from './friends/entities/friend.entity';
+import { Challenge } from './challenge/entities/challenge.entity';
 import { FriendsModule } from './friends/friends.module';
+import { ChallengeModule } from './challenge/challenge.module';
 
 @Module({
   imports: [
@@ -14,10 +16,11 @@ import { FriendsModule } from './friends/friends.module';
       username: 'poap',
       password: 'poap',
       database: 'poap',
-      entities: [ Friend ],
+      entities: [ Friend, Challenge ],
       synchronize: true
     }),
     FriendsModule,
+    ChallengeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
