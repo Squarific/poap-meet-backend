@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { CreateFriendDto } from './dto/create-friend.dto';
 import { UpdateFriendDto } from './dto/update-friend.dto';
+import { Friend } from './entities/friend.entity';
 
 @Injectable()
 export class FriendsService {
+  constructor(@InjectRepository(Friend) private friendRepository: Repository<Friend>) {}
+
   create(createFriendDto: CreateFriendDto) {
-    return 'This action adds a new friend';
+    return this.friendRepository.save(createFriendDto);
   }
 
   findAll() {
-    return `This action returns all friends`;
+    return this.friendRepository.find();
   }
 
   findOne(id: string) {
-    return `This action returns a ${id} friend`;
+    return this.friendRepository.findOne(id);
   }
 
   update(id: string, updateFriendDto: UpdateFriendDto) {
     return `This action updates a ${id} friend`;
   }
 
-  remove(id: string) {
-    return `This action removes a ${id} friend`;
+  async remove(id: string): Promise<void> {
+    await this.friendRepository.delete(id);
   }
 }

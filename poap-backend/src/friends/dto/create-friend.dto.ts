@@ -1,3 +1,4 @@
 export class CreateFriendDto {
-    data: string;
+    initiator: string;
+    target: string;
 }

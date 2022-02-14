@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MeetsController } from './meets/meets.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MeetRequest } from './meets/entities/MeetRequest'
+import { Friend } from './friends/entities/friend.entity';
 import { FriendsModule } from './friends/friends.module';
 
 @Module({
@@ -15,11 +14,12 @@ import { FriendsModule } from './friends/friends.module';
       username: 'poap',
       password: 'poap',
       database: 'poap',
-      entities: [ MeetRequest ],
+      entities: [ Friend ],
+      synchronize: true
     }),
     FriendsModule,
   ],
-  controllers: [AppController, MeetsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
