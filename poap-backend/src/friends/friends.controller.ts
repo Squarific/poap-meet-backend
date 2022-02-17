@@ -10,20 +10,21 @@ export class FriendsController {
 
   @Post()
   create(@Body() createFriendDto: CreateFriendDto) {
+    let recoveredAddr;
     try {
-      const recoveredAddr = recoverPersonalSignature({
+      recoveredAddr = recoverPersonalSignature({
         data: `0x${Buffer.from(createFriendDto.challenge, 'utf8').toString('hex')}`,
         signature: createFriendDto.signature,
-      });
-
-      if (recoveredAddr === normalize(createFriendDto.initiator)) {
-        return this.friendsService.create(createFriendDto);
-      } else {
-        return { error: "Invalid signature!" };
-      }
-      
+      });      
     } catch (err) {
+      console.log(`CreateFriend Invalid Signature Error ${createFriendDto.initiator} ${createFriendDto.challenge} ${createFriendDto.signature} ${err}`);
       return { error: "Invalid signature!" };
+    }
+
+    if (recoveredAddr === normalize(createFriendDto.initiator)) {
+      return this.friendsService.create(createFriendDto);
+    } else {
+      return { error: "Invalid signature!", recoveredAddr: recoveredAddr, initiator: normalize(createFriendDto.initiator)};
     }
   }
 

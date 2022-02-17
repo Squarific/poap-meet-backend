@@ -6,12 +6,21 @@ import { CreateFriendDto } from './dto/create-friend.dto';
 import { UpdateFriendDto } from './dto/update-friend.dto';
 import { Friend } from './entities/friend.entity';
 
+import { NftService } from './../nft/nft.service';
+
 @Injectable()
 export class FriendsService {
-  constructor(@InjectRepository(Friend) private friendRepository: Repository<Friend>) {}
+  constructor(@InjectRepository(Friend) private friendRepository: Repository<Friend>, private readonly nftService: NftService) {}
 
   create(createFriendDto: CreateFriendDto) {
-    return this.friendRepository.save(createFriendDto);
+    this.friendRepository.findOne(createFriendDto.initiator).then((friend) => {
+      if (friend) {
+        this.nftService.create({ initiator: createFriendDto.initiator, target: createFriendDto.target    });
+        this.nftService.create({ initiator: createFriendDto.target   , target: createFriendDto.initiator });
+      }
+
+      return this.friendRepository.save(createFriendDto);
+    });
   }
 
   findAll() {
