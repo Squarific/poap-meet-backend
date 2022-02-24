@@ -6,7 +6,7 @@ export class Nft {
   id: string;
 
   @Column()
-  tokenid: number;
+  tokenid: string;
 
   @Column()
   initiator: string;

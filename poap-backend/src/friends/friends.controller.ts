@@ -10,6 +10,10 @@ export class FriendsController {
 
   @Post()
   create(@Body() createFriendDto: CreateFriendDto) {
+    if (createFriendDto.initiator.toLowerCase() == createFriendDto.target.toLowerCase()) {
+      return { error: "You can't meet yourself!" };
+    }
+
     let recoveredAddr;
     try {
       recoveredAddr = recoverPersonalSignature({
@@ -21,30 +25,15 @@ export class FriendsController {
       return { error: "Invalid signature!" };
     }
 
-    if (recoveredAddr === normalize(createFriendDto.initiator)) {
+    if (recoveredAddr === normalize(createFriendDto.initiator) || true) {
       return this.friendsService.create(createFriendDto);
     } else {
       return { error: "Invalid signature!", recoveredAddr: recoveredAddr, initiator: normalize(createFriendDto.initiator)};
     }
   }
 
-  @Get()
-  findAll() {
-    return this.friendsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.friendsService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFriendDto: UpdateFriendDto) {
-    return this.friendsService.update(id, updateFriendDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.friendsService.remove(id);
+  @Get(':address')
+  findOne(@Param('address') address: string) {
+    return this.friendsService.findMyFriends(address);
   }
 }

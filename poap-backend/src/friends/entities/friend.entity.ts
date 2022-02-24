@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, Unique, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
+@Unique(["initiator", "target"])
 export class Friend {
   @PrimaryGeneratedColumn('uuid')
   id: string;
