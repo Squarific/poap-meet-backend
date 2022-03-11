@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  nestjs:
+    build:
+      context: ./poap-backend/
+      dockerfile: ./Dockerfile
+    ports:
+        - "3000:3000"
+  database:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: yQ25*IwPYS*7
+      MYSQL_DATABASE: poap
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./data/configs:/etc/mysql/conf.d:ro
+      - ./data/start:/docker-entrypoint-initdb.d

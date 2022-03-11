@@ -15,13 +15,12 @@ import { NftModule } from './nft/nft.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'database',
       port: 3306,
-      username: 'poap',
-      password: 'poap',
+      username: 'root',
+      password: 'yQ25*IwPYS*7',
       database: 'poap',
-      entities: [ Friend, Challenge, Nft ],
-      synchronize: true
+      entities: [ Friend, Challenge, Nft ]
     }),
     FriendsModule,
     ChallengeModule,
