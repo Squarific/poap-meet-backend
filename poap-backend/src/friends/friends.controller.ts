@@ -10,10 +10,16 @@ export class FriendsController {
 
   @Post()
   create(@Body() createFriendDto: CreateFriendDto) {
+    // Don't meet yourself
     if (createFriendDto.initiator.toLowerCase() == createFriendDto.target.toLowerCase()) {
       return { error: "You can't meet yourself!" };
     }
 
+    // Force lowercase
+    createFriendDto.initiator = createFriendDto.initiator.toLowerCase();
+    createFriendDto.target = createFriendDto.target.toLowerCase()
+
+    // Check signature
     let recoveredAddr;
     try {
       recoveredAddr = recoverPersonalSignature({
@@ -25,7 +31,7 @@ export class FriendsController {
       return { error: "Invalid signature!" };
     }
 
-    if (recoveredAddr === normalize(createFriendDto.initiator) || true) {
+    if (recoveredAddr === normalize(createFriendDto.initiator)) {
       return this.friendsService.create(createFriendDto);
     } else {
       return { error: "Invalid signature!", recoveredAddr: recoveredAddr, initiator: normalize(createFriendDto.initiator)};
