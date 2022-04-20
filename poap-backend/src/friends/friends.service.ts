@@ -33,6 +33,7 @@ export class FriendsService {
   }
 
   findMyFriends(address: string) {
+    address = address.toLowerCase();
     return this.friendRepository.find({
       where: [
         { target: address }, //OR
